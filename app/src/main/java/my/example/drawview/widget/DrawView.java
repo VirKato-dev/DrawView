@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -43,6 +44,11 @@ public class DrawView extends View {
 
 
     void drawIt(Canvas canvas) {
+        int padS = getPaddingStart();
+        int padE = getPaddingEnd();
+        int padT = getPaddingTop();
+        int padB = getPaddingBottom();
+
         dpi = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
 //        canvas.drawARGB(80, 102, 204, 255);
 
@@ -50,16 +56,16 @@ public class DrawView extends View {
         p.setStrokeWidth(1);
 //        p.setStrokeCap(Paint.Cap.SQUARE);
 
-        int pad_h = getPaddingStart() + getPaddingEnd();
-        int pad_v = getPaddingTop() + getPaddingBottom();
+        int pad_h = padS + padE;
+        int pad_v = padT + padB;
 
         int width = canvas.getWidth() - pad_h;
         int height = canvas.getHeight() - pad_v;
         float size = Math.min(width, height);
         float textWidth = size - 20 * dpi;
 
-        canvas.drawCircle(getPaddingStart() + width / 2f,
-                getPaddingTop() + height / 2f,
+        canvas.drawCircle(padS + width / 2f,
+                padT + height / 2f,
                 (size) / 2f, p);
 
         p.setColor(Color.WHITE);
@@ -73,7 +79,7 @@ public class DrawView extends View {
         // вычислить вертикальное смещение к центру текста
         float line = ((p.getFontMetrics().bottom - p.getFontMetrics().top) * 1.4f) / dpi;
 
-        canvas.drawText(text, getPaddingStart() + width / 2f, line / 2f + getPaddingTop() + height / 2f, p);
+        canvas.drawText(text, padS + width / 2f, line / 2f + padT + height / 2f, p);
     }
 
 }
